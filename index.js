@@ -58,7 +58,6 @@ export function events(selector, name, handler) {
   const event = {
     listener,
     selector,
-    elements,
     name,
     handler
   };
