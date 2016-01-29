@@ -31,6 +31,10 @@ export function createRenderer(container, dispatch) {
   };
 }
 
+function toArray(arrayLike) {
+  return Array.prototype.slice.call(arrayLike, 0);
+}
+
 const eventCache = {};
 
 window.unload = () => {
@@ -46,14 +50,15 @@ window.unload = () => {
 
 export function events(selector, name, handler) {
   const eventsByName = eventCache[name] || (eventCache[name] = []);
-  const elements = document.querySelectorAll(selector);
+  const elements = toArray(document.querySelectorAll(selector));
   const listener = (e) => {
     const validElements = elements.filter(element => element === e.target);
     validElements.forEach(element => handler(e));
   };
   const event = {
     listener,
-    elements: document.querySelectorAll(selector),
+    selector,
+    elements,
     name,
     handler
   };
