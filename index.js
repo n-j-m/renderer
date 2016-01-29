@@ -50,8 +50,8 @@ window.unload = () => {
 
 export function events(selector, name, handler) {
   const eventsByName = eventCache[name] || (eventCache[name] = []);
-  const elements = toArray(document.querySelectorAll(selector));
   const listener = (e) => {
+    const elements = toArray(document.querySelectorAll(selector));
     const validElements = elements.filter(element => element === e.target);
     validElements.forEach(element => handler(e));
   };
