@@ -54,8 +54,14 @@ export function events(selector, name, handler) {
   const event = {
     listener,
     elements: document.querySelectorAll(selector),
-    name
+    name,
+    handler
   };
-  document.body.addEventListener(name, listener);
-  eventsByName.push(event);
+  if (eventsByName.filter(e => e.name === name
+    && e.handler === handler
+    && e.selector === selector).length === 0) {
+
+    document.body.addEventListener(name, listener);
+    eventsByName.push(event);
+  }
 }
