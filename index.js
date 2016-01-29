@@ -6,7 +6,7 @@ import eventModule from "snabbdom/modules/eventlisteners";
 
 const patch = init([classModule, propsModule, styleModule, eventModule]);
 
-function createRenderer(container, dispatch) {
+export function createRenderer(container, dispatch) {
   let vNode = null;
 
   if (container && container.childNodes.length > 0) {
@@ -31,4 +31,31 @@ function createRenderer(container, dispatch) {
   };
 }
 
-module.exports = createRenderer;
+const eventCache = {};
+
+window.unload = () => {
+  Object.keys(listeners)
+    .forEach(eventName => {
+      const events = eventCache[eventName];
+      events.forEach(event => {
+        document.body.removeEventListener(event.name, event.listener);
+      });
+    });
+  listeners = null;
+};
+
+export function events(selector, name, handler) {
+  const eventsByName = eventCache[name] || (eventCache[name] = []);
+  const elements = document.querySelectorAll(selector);
+  const listener = (e) => {
+    const validElements = elements.filter(element => element === e.target);
+    validElements.forEach(element => handler(e));
+  };
+  const event = {
+    listener,
+    elements: document.querySelectorAll(selector),
+    name
+  };
+  document.body.addEventListener(name, listener);
+  eventsByName.push(event);
+}
