@@ -1,34 +1,33 @@
-const vdom = require("virtual-dom");
-const createElement = vdom.create;
-const patch = vdom.patch;
-const diff = vdom.diff;
+import { init } from "snabbdom";
+import classModule from "snabbdom/modules/class";
+import propsModule from "snabbdom/modules/props";
+import styleModule from "snabbdom/modules/style";
+import eventModule from "snabbdom/modules/eventlisteners";
+
+const patch = init([classModule, propsModule, styleModule, eventModule]);
 
 function createRenderer(container, dispatch) {
-  let view = null;
-  let node = null;
+  let vNode = null;
 
   if (container && container.childNodes.length > 0) {
     container.innerHTML = "";
   }
 
-  const update = (newView) => {
-    let patches = diff(view, newView);
-    node = patch(node, patches);
-    view = newView;
-    return node;
+  const update = (render) => {
+    const newVNode = render({dispatch, ...context});
+    patch(vNode, newVNode);
+    vNode = newVNode;
   };
 
-  const create = (newView, context) => {
-    view = newView;
-    node = createElement(view);
-    container.appendChild(node);
-    return node;
+  const create = (render, context) => {
+    vNode = render({dispatch, ...context});
+    patch(container, vNode);
   };
 
-  return function renderer(view, context) {
-    return node !== null
-      ? update(view({dispatch, ...context}))
-      : create(view({dispatch, ...context}));
+  return function renderer(renderVNode, context) {
+    return vNode !== null
+      ? update(renderVNode, context)
+      : create(renderVNode, context);
   };
 }
 

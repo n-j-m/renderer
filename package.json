@@ -9,7 +9,7 @@
     "build": "babel ./index.js --out-file lib/index.js -s"
   },
   "dependencies": {
-    "virtual-dom": "^2.1.1"
+    "snabbdom": "^0.3.1"
   },
   "devDependencies": {
     "babel-cli": "^6.4.5",
