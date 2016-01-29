@@ -62,7 +62,7 @@ export function events(selector, name, handler) {
     handler
   };
   if (eventsByName.filter(e => e.name === name
-    && e.handler === handler
+    && e.handler.toString() === handler.toString()
     && e.selector === selector).length === 0) {
 
     document.body.addEventListener(name, listener);
