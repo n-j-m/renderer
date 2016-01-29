@@ -13,7 +13,7 @@ export function createRenderer(container, dispatch) {
     container.innerHTML = "";
   }
 
-  const update = (render) => {
+  const update = (render, context) => {
     const newVNode = render({dispatch, ...context});
     patch(vNode, newVNode);
     vNode = newVNode;
