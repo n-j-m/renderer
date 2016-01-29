@@ -1,0 +1,11 @@
+{
+  "name": "renderer",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "author": "Nick Moore (https://github.com/n-j-m)",
+  "license": "MIT",
+  "dependencies": {
+    "virtual-dom": "^2.1.1"
+  }
+}
