@@ -2,10 +2,18 @@
   "name": "renderer",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "author": "Nick Moore (https://github.com/n-j-m)",
   "license": "MIT",
+  "scripts": {
+    "build": "babel ./index.js --out-file lib/index.js -s"
+  },
   "dependencies": {
     "virtual-dom": "^2.1.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.4.5",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13"
   }
 }
